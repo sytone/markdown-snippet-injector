@@ -206,3 +206,10 @@ mdinject --root=. --docsroot=../ --sourceext=".java|.cs" --targetext=".md|.txt" 
 3. npm test
 
 E2E tests are developed with [Mocha](https://mochajs.org).
+
+## Release Process
+
+Update version in package.json
+
+npm run prepublish
+npm publish

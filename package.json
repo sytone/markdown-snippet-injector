@@ -1,6 +1,6 @@
 {
   "name": "@sytone/markdown-snippet-injector",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "description": "The MarkDown snippet injector generates MD code snippets by extracting them from the source code of your projects.",
   "main": "index.js",
   "bin": {
