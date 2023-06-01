@@ -71,6 +71,9 @@ export class SnippetInjector {
 
     private _fileFormatSpecs = {};
 
+    private _placeholderPrefix = '%%';
+    private _placeholderSuffix = '%%';
+
 
     constructor() {
         this._storedSnippets = {};
@@ -82,6 +85,22 @@ export class SnippetInjector {
 
     set toWrap(value: boolean){
         this._toWrap = value;
+    }
+
+    set placeholderPrefix(value: string){
+        this._placeholderPrefix = value;
+    }
+
+    get placeholderPrefix(): string {
+        return this._placeholderPrefix;
+    }
+
+    set placeholderSuffix(value: string){
+        this._placeholderSuffix = value;
+    }
+
+    get placeholderSuffix(): string {
+        return this._placeholderSuffix;
     }
 
     get targetFileExtensionFilter(): string {
@@ -145,7 +164,7 @@ export class SnippetInjector {
 
         this.init();
 
-        for (var i = 0; i < this._storedSourceTypes.length; i++ ) {
+        for (var i = 0; i < this._storedSourceTypes.length; i++ ) {
             if (lStat.isDirectory()) {
                 this.processDirectory(root, this._storedSourceTypes[i]);
             } else if (lStat.isFile()) {
@@ -157,7 +176,7 @@ export class SnippetInjector {
     public injectSnippets(docsRoot: string) {
         if (Object.keys(this._storedSnippets).length > 0) {
             var lStat = fsModule.lstatSync(docsRoot);
-            for (var i = 0; i < this._storedTargetTypes.length; i++ ) {
+            for (var i = 0; i < this._storedTargetTypes.length; i++ ) {
                 if (lStat.isDirectory()) {
                     this.processDocsDirectory(docsRoot, this._storedTargetTypes[i]);
                 } else if (lStat.isFile()) {
@@ -183,16 +202,16 @@ export class SnippetInjector {
 
     private replaceWrappedSnippetsWithCorespondingTags(fileContent): string {
         var content = "";
-        content = fileContent.replace(/\<snippet id=['"]([a-zA-Z0-9\-]+)[\S\s]>[\S\s]*?<\/snippet>/g, "<snippet id='$1'/>");
+        const regex = new RegExp(`${this.placeholderPrefix}snippet id=['"]([a-zA-Z0-9\\-]+)['"][\\S\\s]options=['"]([a-zA-Z0-9\\-,=]*)[\\S\\s]${this.placeholderSuffix}[\\S\\s]*?${this.placeholderPrefix}\\/snippet${this.placeholderSuffix}`, 'g');
+        content = fileContent.replace(regex, `${this.placeholderPrefix}snippet id='$1' options='$2'/${this.placeholderSuffix}`);
         return content;
     }
 
-    private wrapSnippetWithComments(snippetTag, snippetId): string {
+    private wrapSnippetWithComments(snippetTag, snippetId, snippetOptions): string {
         var wrappedSnippetTag = "";
-        wrappedSnippetTag += "<snippet id='" + snippetId + "'>\n"
+        wrappedSnippetTag += `${this.placeholderPrefix}snippet id='${snippetId}' options='${snippetOptions}'${this.placeholderSuffix}\n`;
         wrappedSnippetTag += snippetTag
-        wrappedSnippetTag += "\n</snippet>"
-
+        wrappedSnippetTag += `\n${this.placeholderPrefix}/snippet${this.placeholderSuffix}`
         return wrappedSnippetTag;
     }
 
@@ -200,12 +219,13 @@ export class SnippetInjector {
         console.log("Processing docs file: " + path);
         var fileContents = fsModule.readFileSync(path, 'utf8');
         fileContents = this.replaceWrappedSnippetsWithCorespondingTags(fileContents);
-        var regExpOpen = /\<\s*snippet\s+id=\'((?:[a-z]+\-)*[a-z]+)\'\s*\/\s*\>/g;
-        var match = regExpOpen.exec(fileContents);
+        const regex = new RegExp(`${this.placeholderPrefix}\\s*snippet\\s+id=\\'((?:[a-z]+\\-)*[a-z]+)\\'\\s*options=\\'(.*)\\'\\s*\\/\\s*${this.placeholderSuffix}`, 'g');
+        var match = regex.exec(fileContents);
         var hadMatches: boolean = false;
         while (match) {
             var matchedString = match[0];
             var placeholderId = match[1];
+            var placeholderOptions = match[2];
             var finalSnippet = "";
             console.log("Placeholder resolved: " + matchedString);
             for (var i = 0; i < this._storedSourceTypes.length; i++) {
@@ -216,8 +236,13 @@ export class SnippetInjector {
                     if (finalSnippet.length > 0) {
                         finalSnippet += osModule.EOL;
                     }
-                    var currentSnippetTitle = this._storedSourceTitles[currentSourceType] || "";
-                    finalSnippet += "```" + currentSnippetTitle + osModule.EOL + snippetForSourceType + osModule.EOL + "```";
+
+                    if(placeholderOptions.indexOf('nocodeblock') >= 0) {
+                        finalSnippet += snippetForSourceType;    
+                    } else {
+                        var currentSnippetTitle = this._storedSourceTitles[currentSourceType] || "";
+                        finalSnippet += "```" + currentSnippetTitle + osModule.EOL + snippetForSourceType + osModule.EOL + "```";    
+                    }
                 }
             }
 
@@ -242,14 +267,14 @@ export class SnippetInjector {
                     
                 */
                 if (this.toWrap) {
-                    var tmpMatchedString = this.wrapSnippetWithComments(matchedString, placeholderId);
+                    var tmpMatchedString = this.wrapSnippetWithComments(matchedString, placeholderId, placeholderOptions);
                     fileContents = fileContents.replace(matchedString, tmpMatchedString);
                 }
                 fileContents = fileContents.replace(matchedString, finalSnippet);
                 console.log("Token replaced: " + matchedString);
             }
 
-            match = regExpOpen.exec(fileContents);
+            match = regex.exec(fileContents);
         }
 
         if (hadMatches === true) {

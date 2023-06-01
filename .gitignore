@@ -13,3 +13,4 @@ node_modules/
 .DS_Store
 
 test/docsroot-output/
+test/docsroot-result/

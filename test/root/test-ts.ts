@@ -12,3 +12,28 @@ export function div(a, b){
     return a / b;
 }
 // << ts-snippet-with-hidden-section
+
+/*
+// >> ts-snippet-from-comment-as-markdown
+Inline comments in markdown can be inserted as a raw entry.
+
+## Why?
+
+- Because...
+- Helpful!
+
+// << ts-snippet-from-comment-as-markdown
+*/
+
+
+/*
+// >> ts-snippet-from-comment-as-markdownprocessed
+Inline comments in markdown can be inserted as a raw entry.
+
+## Why?
+
+- Because...
+- Helpful!
+
+// << ts-snippet-from-comment-as-markdownprocessed
+*/

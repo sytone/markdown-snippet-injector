@@ -20,6 +20,9 @@ snippetInjector.toWrap = yargsModule.argv.w;
 snippetInjector.sourceFileExtensionFilter = yargsModule.argv.sourceext || ".ts";
 snippetInjector.targetFileExtensionFilter = yargsModule.argv.targetext || ".md";
 
+snippetInjector.placeholderPrefix = yargsModule.argv.placeholderPrefix || "%%";
+snippetInjector.placeholderSuffix =yargsModule.argv.placeholderSuffix || "%%";
+
 snippetInjector.snippetTitles = yargsModule.argv.snippettitles;
 
 snippetInjector.process(rootDirectory);
