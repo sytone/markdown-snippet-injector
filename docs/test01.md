@@ -14,7 +14,7 @@ Handles the injection into the markdown files.
 %%snippet id='ts-snippet-with-hidden-section' options=''%%
 ```TypeScript
 private div(a: number, b: number) {
-    return a / b;
+  return a / b;
 }
 ```
 %%/snippet%%

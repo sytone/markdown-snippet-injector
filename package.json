@@ -1,23 +1,18 @@
 {
   "name": "@sytone/markdown-snippet-injector",
-  "version": "0.2.6",
+  "version": "2.1.1",
+  "author": "Jon Bullen (orginally Deyan Ginev)",
+  "license": "MIT",
   "description": "The MarkDown snippet injector generates MD code snippets by extracting them from the source code of your projects.",
   "main": "./dist/index.js",
   "bin": {
-    "mdinject": "./dist/index.js",
-    "mdextract": "./dist/extract.js"
-  },
-  "files": [
-    "dist/*"
-  ],
-  "typescript": {
-    "definition": "index.d.ts"
+    "mdinject": "./dist/index.js"
   },
   "scripts": {
-    "build": "npx tsc",
+    "build": "tsc -p .",
     "build:watch": "tsc --watch",
     "test": "mocha --config test/runners/mocha/.mocharc.jsonc",
-    "install": "npm install -g ."
+    "test:install": "npm install -g . && mdinject"
   },
   "keywords": [
     "markdown",
@@ -25,23 +20,24 @@
     "snippet",
     "injector"
   ],
-  "author": "Deyan Ginev",
-  "license": "MIT",
   "dependencies": {
-    "ts-node": "^10.9.1",
-    "typescript": "^4.6.3",
     "yargs": "^17.7.2"
   },
   "devDependencies": {
     "@types/chai": "^4.3.6",
     "@types/mocha": "^10.0.1",
-    "@types/node": "^20.6.0",
+    "@types/node": "^20.6.1",
     "@types/sinon": "^10.0.16",
     "@types/yargs": "^17.0.24",
     "chai": "^4.3.8",
     "mocha": "^10.2.0",
     "shelljs": "^0.8.5",
-    "sinon": "^15.2.0",
+    "sinon": "^16.0.0",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.2.2",
     "xo": "^0.56.0"
+  },
+  "xo": {
+    "space": true
   }
 }

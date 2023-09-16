@@ -1,30 +1,31 @@
 #!/usr/bin/env node
+/* eslint-disable import/extensions */
+import * as process from 'node:process';
+import {log} from './log';
+import parser from './args';
+import {injectSnippets, loadSnippets} from './index';
 
-import log from './log'
-import parser from './args'
-import { injectSnippets, loadSnippets} from './index'
-
+// eslint-disable-next-line unicorn/prefer-top-level-await
 void (async () => {
-  const argv = await parser(process.argv)
+  const argv = await parser(process.argv);
 
-  log.setLevel(argv.logLevel)
-  log.debug('argv:', argv)
+  log.setLevel(argv.logLevel);
+  log.debug('argv:', argv);
 
   await loadSnippets(argv).catch(error => {
-    log.error(error)
-    process.exit(1)
-  })
+    log.error(error);
+    process.exit(1);
+  });
 
   await injectSnippets(argv).catch(error => {
-    log.error(error)
-    process.exit(1)
-  })
+    log.error(error);
+    process.exit(1);
+  });
 
-  process.exit(0)
-})()
+  process.exit(0);
+})();
 
-
-// declare var require;
+// Declare var require;
 // import {SnippetExtractor} from "./snippet-extractor";
 // var yargsModule = require("yargs");
 

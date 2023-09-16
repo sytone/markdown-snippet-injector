@@ -3,16 +3,24 @@
     "rootDir": "src",
     "outDir": "dist",
     "strict": true,
-    "target": "es2021",
+    "target": "ESNext",
     "module": "commonjs",
+    "lib": [
+      "ES6",
+      "ES2015",
+      "ESNext"
+    ],
     "sourceMap": true,
     "esModuleInterop": true,
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "types": [
+      "node"
+    ],
+    "resolveJsonModule": true
   },
-  "include": [
-    "src/**/*.ts"
-  ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "dist",
+    "test"
   ]
 }
