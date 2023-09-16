@@ -2,7 +2,7 @@
 *.tgz
 *.js
 !prepare-tests.js
-!test/*.js
+!test/**/*.js
 *.js.map
 
 #Node

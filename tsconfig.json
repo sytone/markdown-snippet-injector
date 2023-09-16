@@ -1,26 +1,18 @@
 {
-    "compilerOptions": {
-        "target": "es5",
-        "declaration": true,
-        "module": "commonjs",
-        "moduleResolution": "node",
-        "noImplicitAny": false,
-        "removeComments": true,
-        "sourceMap": true
-    },
-    "filesGlob": [
-        "**/*.ts",
-        "!node_modules/**"
-    ],
-    "compileOnSave": true,
-    "buildOnSave": false,
-    "files": [
-        "index.ts",
-        "extract.ts",
-        "snippet-injector.ts",
-        "snippet-extractor.ts"
-    ],
-    "atom": {
-        "rewriteTsconfig": true
-    }
+  "compilerOptions": {
+    "rootDir": "src",
+    "outDir": "dist",
+    "strict": true,
+    "target": "es2021",
+    "module": "commonjs",
+    "sourceMap": true,
+    "esModuleInterop": true,
+    "moduleResolution": "node"
+  },
+  "include": [
+    "src/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }
