@@ -42,7 +42,7 @@ export class Snippet {
   public value: string;
   public id!: string;
   public options!: string;
-  public endOfLineValue = '/n';
+  public endOfLineValue = '\n';
 
   constructor(
     public readonly programOptions: ProgramOptions,

@@ -20,7 +20,7 @@ export class SnippetInjector {
   public targetFileExtensionFilter = '';
   public toWrap = true;
   public useOsEol = false;
-  public endOfLineValue = '/n';
+  public endOfLineValue = '\n';
 
   public placeholderPrefix = '%%';
   public placeholderSuffix = '%%';
