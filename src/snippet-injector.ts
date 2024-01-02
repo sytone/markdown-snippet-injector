@@ -19,6 +19,8 @@ export class SnippetInjector {
   public sourceFileExtensionFilter = '';
   public targetFileExtensionFilter = '';
   public toWrap = true;
+  public useOsEol = false;
+  public endOfLineValue = '/n';
 
   public placeholderPrefix = '%%';
   public placeholderSuffix = '%%';
@@ -35,6 +37,11 @@ export class SnippetInjector {
     this.placeholderSuffix = programOptions.placeholderSuffix;
     this.snippetTitles = programOptions.snippetTitles;
     this.toWrap = programOptions.wrap;
+    this.useOsEol = programOptions.useOsEol;
+
+    if (this.useOsEol) {
+      this.endOfLineValue = os.EOL;
+    }
   }
 
   /*
@@ -327,14 +334,14 @@ export class SnippetInjector {
 
           hadMatches = true;
           if (finalSnippet.length > 0) {
-            finalSnippet += os.EOL;
+            finalSnippet += this.endOfLineValue;
           }
 
           if (placeholderOptions.includes('nocodeblock')) {
             finalSnippet += snippetForSourceType.processedValue;
           } else {
             const currentSnippetTitle = this._storedSourceTitles[currentSourceType] || '';
-            finalSnippet += '```' + currentSnippetTitle + os.EOL + snippetForSourceType.processedValue + os.EOL + '```';
+            finalSnippet += '```' + currentSnippetTitle + this.endOfLineValue + snippetForSourceType.processedValue + this.endOfLineValue + '```';
           }
 
           log.debug('Final Snippet:', finalSnippet);

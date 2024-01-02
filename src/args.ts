@@ -18,6 +18,7 @@ export type ProgramOptions = {
   snippetTitles: string;
 
   wrap: boolean;
+  useOsEol: boolean;
   sourceFileExtensionFilter: string;
   targetFileExtensionFilter: string;
   placeholderPrefix: string;
@@ -82,6 +83,11 @@ export default async function args(cmd: string[]): Promise<ProgramOptions> {
     .option('placeholder-suffix', {
       description: 'Suffix used for the placeholder command in the target files.',
       default: '%%',
+    })
+    .option('use-os-eol', {
+      description: 'Use the OS based EOL character, by default just LF is used.',
+      type: 'boolean',
+      default: false,
     })
     .strict().argv;
 }

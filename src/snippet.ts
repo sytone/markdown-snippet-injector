@@ -42,6 +42,7 @@ export class Snippet {
   public value: string;
   public id!: string;
   public options!: string;
+  public endOfLineValue = '/n';
 
   constructor(
     public readonly programOptions: ProgramOptions,
@@ -52,6 +53,10 @@ export class Snippet {
   ) {
     this.value = '';
     const match = sourceFile.openRegExp.exec(token);
+
+    if (programOptions.useOsEol) {
+      this.endOfLineValue = os.EOL;
+    }
 
     log.debug('Snippet Token', token);
     log.debug('Snippet Start Regex', sourceFile.openRegExp);
@@ -146,7 +151,7 @@ export class Snippet {
       }
     }
 
-    return lines.join(os.EOL);
+    return lines.join(this.endOfLineValue);
   }
 
   private lineHasText(line: string | undefined): boolean {
