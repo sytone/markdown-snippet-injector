@@ -88,7 +88,8 @@ export class SnippetInjector {
         if (file) {
           const filePath = `${docsRoot}/${file}`;
           this.ensureDirectoryExistence(filePath);
-          const fileContents = `${headerContent}${processedValue ?? ''}${footerContent}${this.placeholderPrefix}This file is auto-generated. Do not edit.${this.placeholderSuffix}`;
+          const dateTime = new Date().toDateString();
+          const fileContents = `${headerContent}${processedValue ?? ''}${footerContent}\n\n${this.placeholderPrefix}This file is auto-generated. Do not edit. Generated at: ${dateTime}${this.placeholderSuffix}`;
           fs.writeFileSync(filePath, fileContents, 'utf8');
         }
       }
