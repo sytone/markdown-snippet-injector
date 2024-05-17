@@ -302,5 +302,8 @@ E2E tests are developed with [Mocha](https://mochajs.org).
 
 Update version in package.json
 
+Update changelog
+`npx git-cliff@latest --init`
+
 npm run build
 npm publish

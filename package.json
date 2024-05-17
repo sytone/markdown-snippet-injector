@@ -1,6 +1,6 @@
 {
   "name": "@sytone/markdown-snippet-injector",
-  "version": "2.1.6",
+  "version": "2.2.0",
   "author": "Jon Bullen (orginally Deyan Ginev)",
   "license": "MIT",
   "description": "The MarkDown snippet injector generates MD code snippets by extracting them from the source code of your projects.",
@@ -30,6 +30,7 @@
     "@types/sinon": "^10.0.16",
     "@types/yargs": "^17.0.24",
     "chai": "^4.3.8",
+    "git-cliff": "^2.2.2",
     "mocha": "^10.2.0",
     "shelljs": "^0.8.5",
     "sinon": "^16.0.0",
